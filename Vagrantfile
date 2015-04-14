@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.provision "chef_solo" do |chef|
+    chef.add_recipe "apt"
     chef.add_recipe "git"
     chef.add_recipe "mercurial"
     chef.add_recipe "the_silver_searcher"
