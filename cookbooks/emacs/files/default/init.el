@@ -17,6 +17,7 @@
                       enh-ruby-mode
                       helm-projectile
                       flx-ido
+                      paredit-everywhere
                       ))
 
 (dolist (p my-packages)
@@ -26,5 +27,18 @@
 ;; Projectile and helm
 ;;
 (projectile-global-mode)
-(global-set-key (kbd "C-c h") 'helm-projectile)
 (projectile-get-project-directories)
+
+
+;; Keybindings
+;;
+(global-set-key (kbd "C-c h") 'helm-projectile)
+(global-set-key (kbd "M-/") 'dabbrev-expand)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "M-s") 'save-buffer)
+(global-set-key (kbd "M-z") 'undo)
+(global-set-key (kbd "C-x C-k") 'kill-current-buffer)
+
+;; Misc
+;;
+(add-hook 'prog-mode-hook 'paredit-everywhere-mode)
