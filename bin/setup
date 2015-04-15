@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -euo pipefail
+
+vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-triggers
+vagrant up

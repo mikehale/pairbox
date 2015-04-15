@@ -23,4 +23,9 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "emacs"
     chef.add_recipe "tmux"
   end
+
+  # Needed to resolve https://github.com/mitchellh/vagrant/issues/5199
+  config.trigger.after [:reload, :halt], stdout: true do
+    `find #{File.expand_path(File.dirname(__FILE__) + "/.vagrant")} -name synced_folders -exec rm {} \\;`
+  end
 end
