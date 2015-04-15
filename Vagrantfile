@@ -26,6 +26,9 @@ Vagrant.configure("2") do |config|
 
   # Needed to resolve https://github.com/mitchellh/vagrant/issues/5199
   config.trigger.after [:reload, :halt], stdout: true do
-    `find #{File.expand_path(File.dirname(__FILE__) + "/.vagrant")} -name synced_folders -exec rm {} \\;`
+    require 'fileutils'
+    Dir[File.expand_path(File.dirname(__FILE__) + "/.vagrant/**/synced_folders")].each do |f|
+      FileUtils.rm(f)
+    end
   end
 end
