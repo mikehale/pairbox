@@ -2,6 +2,7 @@
 - hosts: all
   sudo: true
   tasks:
+    - apt_repository: repo='ppa:git-core/ppa' update_cache=no
     - apt: update_cache=yes
     - apt: name=git
     - apt: name=silversearcher-ag
