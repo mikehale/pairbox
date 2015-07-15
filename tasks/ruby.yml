@@ -1,0 +1,8 @@
+---
+- include: ruby-install.yml
+- include: chruby.yml
+- name: install ruby 2.2.1
+  command: ruby-install --jobs=4 ruby 2.2.1 -- --disable-install-doc creates=/opt/rubies/ruby-2.2.1
+- name: configure chruby
+  copy: src=files/chruby.sh dest=/etc/profile.d/chruby.sh owner=root group=root mode=0644
+- gem: name=bundler executable=/opt/rubies/ruby-2.2.1/bin/gem user_install=no

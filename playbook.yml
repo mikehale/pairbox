@@ -1,0 +1,16 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+    - apt: update_cache=yes
+    - apt: name=git
+    - apt: name=silversearcher-ag
+    - apt: name=tree
+    - apt: name=nodejs
+    - apt: name=mercurial
+    - include: tasks/ruby.yml
+    - include: tasks/emacs.yml
+    - include: tasks/postgresql.yml
+    - include: tasks/go.yml
+    - include: tasks/tmux.yml
+    - include: tasks/redis.yml

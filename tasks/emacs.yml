@@ -1,0 +1,8 @@
+---
+- apt: name=emacs24-nox
+- name: create ~/.emacs.d
+  file: path=~vagrant/.emacs.d state=directory owner=vagrant group=vagrant
+- name: setup ~/.emacs.d/init.el
+  copy: src=files/init.el dest=~vagrant/.emacs.d/init.el owner=vagrant group=vagrant
+- name: configure emacs
+  raw: emacs -batch -l .emacs.d/init.el

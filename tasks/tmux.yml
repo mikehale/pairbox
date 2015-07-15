@@ -1,0 +1,3 @@
+---
+- apt: name=tmux
+- copy: src=files/tmux.conf dest=/etc/tmux.conf owner=root group=root mode=0644
