@@ -1,13 +1,14 @@
 ---
+- apt: name=aspell
 - name: download emacs
   get_url: url=ftp://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.gz dest=/tmp/emacs-24.5.tar.gz sha256sum=2737a6622fb2d9982e9c47fb6f2fb297bda42674e09db40fc9bcc0db4297c3b6
 - name: unpack emacs
-  unarchive: src=/tmp/emacs-24.5.tar.gz dest=/tmp copy=no
+  unarchive: src=/tmp/emacs-24.5.tar.gz dest=/tmp copy=no creates=/tmp/emacs-24.5
 - name: install emacs
   shell: ./configure && make && make install chdir=/tmp/emacs-24.5 creates=/usr/local/bin/emacs
 - name: create ~/.emacs.d
   file: path=~vagrant/.emacs.d state=directory owner=vagrant group=vagrant
 - name: setup ~/.emacs.d/init.el
   copy: src=files/init.el dest=~vagrant/.emacs.d/init.el owner=vagrant group=vagrant
-- name: configure emacs
+- name: process emacs config
   command: emacs -batch -l .emacs.d/init.el
