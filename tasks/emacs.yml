@@ -5,4 +5,4 @@
 - name: setup ~/.emacs.d/init.el
   copy: src=files/init.el dest=~vagrant/.emacs.d/init.el owner=vagrant group=vagrant
 - name: configure emacs
-  raw: emacs -batch -l .emacs.d/init.el
+  raw: emacs -batch -l .emacs.d/init.el || true
