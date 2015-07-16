@@ -1,0 +1,3 @@
+---
+- apt: name=cachefilesd
+- copy: content="RUN=yes\n" dest=/etc/default/cachefilesd

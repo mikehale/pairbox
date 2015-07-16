@@ -15,3 +15,4 @@
     - include: tasks/go.yml
     - include: tasks/tmux.yml
     - include: tasks/redis.yml
+    - include: tasks/cachefilesd.yml
