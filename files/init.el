@@ -1,11 +1,20 @@
+;; Custom
+;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))))
+
 ;; Misc
 ;;
-
 (fset 'yes-or-no-p 'y-or-n-p) ; short answers
 
 ;; Formatting
 ;;
-
 (progn
   (setq-default tab-width 2)
   (setq-default indent-tabs-mode nil) ;; always indent with spaces
@@ -14,7 +23,6 @@
 
 ;; Display
 ;;
-
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode blink-cursor-mode))
   (when (fboundp mode) (funcall mode -1)))
 
@@ -23,7 +31,6 @@
 
 ;; Elpa
 ;;
-
 (require 'package)
 (dolist (s '(("melpa-stable" . "http://stable.melpa.org/packages/")
              ("melpa" . "http://melpa.org/packages/")
@@ -46,18 +53,9 @@
 
 ;; Packages
 ;;
-
 (use-package smart-mode-line
   :ensure t
-  :config (progn
-            (setq sml/no-confirm-load-theme t)
-            (sml/setup)))
-
-(defun turn-on-linum-hl-mode-hook()
-  (interactive)
-  (hl-line-mode 1)
-  (linum-mode 1))
-;; (turn-on-linum-hl-mode-hook)
+  :config (sml/setup))
 
 (use-package ag :ensure t)
 
@@ -94,6 +92,9 @@
                (recentf-mode t))
   :bind ("C-x C-r" . helm-recentf))
 
+(use-package abbrev
+  :diminish abbrev-mode)
+
 (use-package enh-ruby-mode
   :ensure t
   :init   (progn
@@ -104,13 +105,13 @@
             ;; file type associations
             (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.rake\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Rakefile\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.gemspec\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Gemfile\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Guardfile\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Vagrantfile\\'" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.ru\\'" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.rake" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("Rakefile" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.gemspec" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("Gemfile" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("Guardfile" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("Vagrantfile" . enh-ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.ru" . enh-ruby-mode))
 
             ;; configure ruby-mode
             (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
@@ -133,23 +134,16 @@
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
 
+;; Functions
+;;
 (defun cleanup-buffer()
   "indent and clean buffer"
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(defun turn-on-linum-hl-mode-hook()
+  (interactive)
+  (hl-line-mode 1)
+  (linum-mode 1))
