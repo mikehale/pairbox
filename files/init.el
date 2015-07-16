@@ -96,36 +96,30 @@
   :diminish abbrev-mode)
 
 (use-package enh-ruby-mode
-  :ensure t
-  :init   (progn
-            (use-package rspec-mode :ensure t)
-            (use-package inf-ruby :ensure t)
-            (use-package bundler :ensure t)
-
-            ;; file type associations
-            (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.rake" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Rakefile" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.gemspec" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Gemfile" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Guardfile" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("Vagrantfile" . enh-ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.ru" . enh-ruby-mode))
-
-            ;; configure ruby-mode
-            (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
-
-            (setq ruby-deep-indent-paren nil)
-            (setq ruby-insert-encoding-magic-comment nil)
-            (setq end-ruby-deep-indent-paren nil)
-            (setq end-ruby-deep-arglist t)
-            (setq enh-ruby-hanging-brace-deep-indent-level 2)
-            (setq enh-ruby-hanging-brace-indent-level 2)
-            (setq enh-ruby-hanging-indent-level 2)
-            (setq enh-ruby-hanging-paren-deep-indent-level 2)
-            (setq enh-ruby-hanging-paren-indent-level 2)
-            (setq enh-ruby-indent-level 2)))
+  :ensure      t
+  :interpreter "ruby"
+  :mode        (("\\.rb$" . enh-ruby-mode)
+                ("Rakefile" . enh-ruby-mode)
+                ("\\.rake" . enh-ruby-mode)
+                ("\\.gemspec" . enh-ruby-mode)
+                ("Gemfile" . enh-ruby-mode)
+                ("Guardfile" . enh-ruby-mode)
+                ("Vagrantfile" . enh-ruby-mode)
+                ("\\.ru" . enh-ruby-mode))
+  :init        (progn
+                 (use-package rspec-mode :ensure t)
+                 (use-package inf-ruby :ensure t)
+                 (use-package bundler :ensure t)
+                 (setq ruby-deep-indent-paren nil)
+                 (setq ruby-insert-encoding-magic-comment nil)
+                 (setq end-ruby-deep-indent-paren nil)
+                 (setq end-ruby-deep-arglist t)
+                 (setq enh-ruby-hanging-brace-deep-indent-level 2)
+                 (setq enh-ruby-hanging-brace-indent-level 2)
+                 (setq enh-ruby-hanging-indent-level 2)
+                 (setq enh-ruby-hanging-paren-deep-indent-level 2)
+                 (setq enh-ruby-hanging-paren-indent-level 2)
+                 (setq enh-ruby-indent-level 2)))
 
 ;; Keybindings
 ;;
