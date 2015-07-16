@@ -147,3 +147,8 @@
   (interactive)
   (hl-line-mode 1)
   (linum-mode 1))
+
+(defun turn-off-linum-hl-mode-hook()
+  (interactive)
+  (hl-line-mode -1)
+  (linum-mode -1))
