@@ -1,8 +1,14 @@
 ---
-- apt: name=postgresql-9.3
-- apt: name=postgresql-contrib-9.3
-- apt: name=libpq-dev
-- apt: name=python-psycopg2
+- name: install postgres packages
+  apt: name={{item}}
+  with_items:
+    - postgresql-9.4
+    - postgresql-contrib-9.4
+    - libpq-dev
+    - python-psycopg2
+- name: configure pg_hba to allow passwordless connections from localhost
+  copy: src=files/pg_hba.conf dest=/etc/postgresql/9.4/main/pg_hba.conf
+  notify: restart postgres
 - name: create vagrant postgresql user
   sudo: yes
   sudo_user: postgres

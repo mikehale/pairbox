@@ -2,12 +2,14 @@
 - hosts: all
   sudo: true
   tasks:
+    - apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc id=ACCC4CF8
+    - apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' update_cache=no
     - apt_repository: repo='ppa:git-core/ppa' update_cache=no
     - apt: update_cache=yes
     - apt: name=git
     - apt: name=silversearcher-ag
     - apt: name=tree
-    - apt: name=nodejs
+    - apt: name=nodejsq
     - apt: name=mercurial
     - include: tasks/ruby.yml
     - include: tasks/emacs.yml
@@ -16,3 +18,6 @@
     - include: tasks/tmux.yml
     - include: tasks/redis.yml
     - include: tasks/cachefilesd.yml
+  handlers:
+    - name: restart postgres
+      action: service name=postgresql state=restarted
