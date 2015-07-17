@@ -7,11 +7,14 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+     "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
+     default))))
 
 ;; Misc
 ;;
 (fset 'yes-or-no-p 'y-or-n-p) ; short answers
+(setq compilation-scroll-output t)
 
 ;; Formatting
 ;;
@@ -28,6 +31,14 @@
 
 (dolist (mode '(column-number-mode))
   (when (fboundp mode) (funcall mode 1)))
+
+;; Window management
+;;
+(progn
+  (global-set-key (kbd "<up>") 'shrink-window)
+  (global-set-key (kbd "<down>") 'enlarge-window)
+  (global-set-key (kbd "<left>") 'shrink-window-horizontally)
+  (global-set-key (kbd "<right>") 'enlarge-window-horizontally))
 
 ;; Elpa
 ;;
@@ -61,9 +72,7 @@
 
 (use-package magit
   :ensure t
-  :bind ("C-x g" . magit-status))
-
-(use-package flx-ido :ensure t)
+  :bind   ("C-x g" . magit-status))
 
 (use-package smartparens
   :ensure t
@@ -76,21 +85,33 @@
 (use-package projectile
   :ensure t
   :init   (progn
-            (projectile-global-mode)))
+            (projectile-global-mode))
+  :diminish projectile-mode)
 
 (use-package helm
   :ensure t
   :init   (progn
+            (helm-mode t)
+            (require 'helm-config)
+            (setq helm-M-x-fuzzy-match t
+                  helm-recentf-fuzzy-match t
+                  helm-semantic-fuzzy-match t
+                  helm-imenu-fuzzy-match t)
+            (use-package semantic) ; this doesn't work?
             (use-package helm-projectile
               :ensure t
               :pin    melpa-stable
-              :bind   ("C-c h" . helm-projectile))))
+              :bind   (
+                       ("C-c h i" . helm-semantic-or-imenu)
+                       ("C-x b" . helm-mini)
+                       ("C-x C-f" . helm-find-files)
+                       )))
+  :bind   ("M-x" . helm-M-x)
+  :diminish helm-mode)
 
 (use-package recentf
-  :init (progn (setq recentf-max-menu-items 25
-                     recentf-exclude        '("/tmp" "/ssh:" "\\ido.last" "recentf"))
-               (recentf-mode t))
-  :bind ("C-x C-r" . helm-recentf))
+  :init (progn (setq recentf-max-menu-items 25)
+               (recentf-mode t)))
 
 (use-package abbrev
   :diminish abbrev-mode)
@@ -108,7 +129,9 @@
                 ("\\.ru" . enh-ruby-mode))
   :init        (progn
                  (use-package rspec-mode :ensure t)
-                 (use-package inf-ruby :ensure t)
+                 (use-package inf-ruby
+                   :ensure t
+                   :config (inf-ruby-switch-setup))
                  (use-package bundler :ensure t)
                  (setq ruby-deep-indent-paren nil)
                  (setq ruby-insert-encoding-magic-comment nil)
