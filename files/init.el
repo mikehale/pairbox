@@ -19,10 +19,12 @@
 ;; Formatting
 ;;
 (progn
-  (setq-default tab-width 2)
-  (setq-default indent-tabs-mode nil) ;; always indent with spaces
-  (setq tab-stop-list (number-sequence 2 60 2))
-  (setq visible-bell t))
+  (setq-default tab-width 2
+                indent-tabs-mode nil)      ; always indent with spaces
+  (setq         tab-stop-list (number-sequence 2 60 2)
+                visible-bell t
+                show-trailing-whitespace t ; show extra whitespace
+                require-final-newline t))  ; ensure last line is a return
 
 ;; Display
 ;;
@@ -31,6 +33,7 @@
 
 (dolist (mode '(column-number-mode))
   (when (fboundp mode) (funcall mode 1)))
+
 
 ;; Window management
 ;;
@@ -113,6 +116,9 @@
   :init (progn (setq recentf-max-menu-items 25)
                (recentf-mode t)))
 
+(use-package global-auto-revert-mode
+  :init (global-auto-revert-mode 1))
+
 (use-package abbrev
   :diminish abbrev-mode)
 
@@ -133,16 +139,16 @@
                    :ensure t
                    :config (inf-ruby-switch-setup))
                  (use-package bundler :ensure t)
-                 (setq ruby-deep-indent-paren nil)
-                 (setq ruby-insert-encoding-magic-comment nil)
-                 (setq end-ruby-deep-indent-paren nil)
-                 (setq end-ruby-deep-arglist t)
-                 (setq enh-ruby-hanging-brace-deep-indent-level 2)
-                 (setq enh-ruby-hanging-brace-indent-level 2)
-                 (setq enh-ruby-hanging-indent-level 2)
-                 (setq enh-ruby-hanging-paren-deep-indent-level 2)
-                 (setq enh-ruby-hanging-paren-indent-level 2)
-                 (setq enh-ruby-indent-level 2)))
+                 (setq ruby-deep-indent-paren nil
+                       ruby-insert-encoding-magic-comment nil
+                       end-ruby-deep-indent-paren nil
+                       end-ruby-deep-arglist t
+                       enh-ruby-hanging-brace-deep-indent-level 2
+                       enh-ruby-hanging-brace-indent-level 2
+                       enh-ruby-hanging-indent-level 2
+                       enh-ruby-hanging-paren-deep-indent-level 2
+                       enh-ruby-hanging-paren-indent-level 2
+                       enh-ruby-indent-level 2)))
 
 ;; Keybindings
 ;;
