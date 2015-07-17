@@ -9,8 +9,9 @@
     - apt: name=git
     - apt: name=silversearcher-ag
     - apt: name=tree
-    - apt: name=nodejsq
+    - apt: name=nodejs
     - apt: name=mercurial
+    - include_vars: vars/secrets.yml
     - include: tasks/ruby.yml
     - include: tasks/emacs.yml
     - include: tasks/postgresql.yml
@@ -18,6 +19,7 @@
     - include: tasks/tmux.yml
     - include: tasks/redis.yml
     - include: tasks/cachefilesd.yml
+    - include: tasks/ion-client.yml
   handlers:
     - name: restart postgres
       action: service name=postgresql state=restarted
