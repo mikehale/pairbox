@@ -2,6 +2,8 @@
 - hosts: all
   sudo: true
   tasks:
+    - apt_key: url=https://get.docker.io/gpg id=A88D21E9
+    - apt_repository: repo='deb http://get.docker.io/ubuntu docker main' update_cache=no
     - apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc id=ACCC4CF8
     - apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' update_cache=no
     - apt_repository: repo='ppa:git-core/ppa' update_cache=no
@@ -19,6 +21,7 @@
     - include: tasks/tmux.yml
     - include: tasks/redis.yml
     - include: tasks/cachefilesd.yml
+    - include: tasks/docker.yml
     - include: tasks/heroku.yml
   handlers:
     - name: restart postgres
