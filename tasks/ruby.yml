@@ -3,6 +3,9 @@
 - include: chruby.yml
 - name: install ruby {{ ruby_version }}
   command: ruby-install --jobs=4 ruby {{ ruby_version }} -- --disable-install-doc creates=/opt/rubies/ruby-{{ ruby_version }}
-- gem: name=bundler executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
-- gem: name=dotenv executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
-- gem: name=zeus executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
+- name: install global utility gems
+  gem: name={{item}} executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
+  with_items:
+    - bundler
+    - dotenv
+    - zeus
