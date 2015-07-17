@@ -14,6 +14,7 @@ The best way to get together is `vagrant share --ssh --disable-http` and `vagran
 
 ## TODO
 
+* Pluggable .netrc
 * GitHub auth
 * git config
 * per user emacs config

@@ -1,2 +1,3 @@
 ---
 - gem: name=ion-client repository={{ heroku_gemgate_url }} executable=/opt/rubies/ruby-2.2.2/bin/gem user_install=no
+- gem: name=api-admin repository={{ heroku_gemgate_url }} executable=/opt/rubies/ruby-2.2.2/bin/gem user_install=no

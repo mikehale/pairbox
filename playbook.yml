@@ -19,7 +19,7 @@
     - include: tasks/tmux.yml
     - include: tasks/redis.yml
     - include: tasks/cachefilesd.yml
-    - include: tasks/ion-client.yml
+    - include: tasks/heroku.yml
   handlers:
     - name: restart postgres
       action: service name=postgresql state=restarted
