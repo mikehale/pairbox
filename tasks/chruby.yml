@@ -5,3 +5,5 @@
   unarchive: src=/tmp/chruby-v0.3.9.tar.gz dest=/tmp copy=no
 - name: install chruby
   command: make install chdir=/tmp/chruby-0.3.9 creates=/usr/local/share/chruby
+- name: configure chruby
+  template: src=files/chruby.sh dest=/etc/profile.d/chruby.sh owner=root group=root mode=0644

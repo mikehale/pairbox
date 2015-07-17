@@ -1,9 +1,8 @@
 ---
 - include: ruby-install.yml
 - include: chruby.yml
-- name: install ruby 2.2.2
-  command: ruby-install --jobs=4 ruby 2.2.2 -- --disable-install-doc creates=/opt/rubies/ruby-2.2.2
-- name: configure chruby
-  copy: src=files/chruby.sh dest=/etc/profile.d/chruby.sh owner=root group=root mode=0644
-- gem: name=bundler executable=/opt/rubies/ruby-2.2.2/bin/gem user_install=no
-- gem: name=dotenv executable=/opt/rubies/ruby-2.2.2/bin/gem user_install=no
+- name: install ruby {{ ruby_version }}
+  command: ruby-install --jobs=4 ruby {{ ruby_version }} -- --disable-install-doc creates=/opt/rubies/ruby-{{ ruby_version }}
+- gem: name=bundler executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
+- gem: name=dotenv executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
+- gem: name=zeus executable=/opt/rubies/ruby-{{ ruby_version }}/bin/gem user_install=no
