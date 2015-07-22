@@ -9,4 +9,3 @@
     - bundler
     - dotenv
     - zeus
-    - ruby-lint
