@@ -5,7 +5,6 @@
    (quote
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))))
 
-
 ;; Misc
 ;;
 (setq load-prefer-newer t)    ; Please don't load outdated byte code
@@ -16,8 +15,8 @@
 ;;
 (progn
   (setq-default tab-width 2
-                indent-tabs-mode nil)      ; always indent with spaces
-  (setq         tab-stop-list (number-sequence 2 60 2)
+                indent-tabs-mode nil       ; always indent with spaces
+                tab-stop-list (number-sequence 2 60 2)
                 visible-bell t
                 show-trailing-whitespace t ; show extra whitespace
                 indicate-empty-lines t
@@ -217,16 +216,6 @@
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
-
-(defun turn-on-linum-hl-mode-hook()
-  (interactive)
-  (hl-line-mode 1)
-  (linum-mode 1))
-
-(defun turn-off-linum-hl-mode-hook()
-  (interactive)
-  (hl-line-mode -1)
-  (linum-mode -1))
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
