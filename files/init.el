@@ -9,7 +9,6 @@
 ;;
 (setq load-prefer-newer t)    ; Please don't load outdated byte code
 (fset 'yes-or-no-p 'y-or-n-p) ; short answers
-(setq compilation-scroll-output t)
 
 ;; Formatting
 ;;
@@ -78,6 +77,9 @@
   :config (progn
             (sml/setup)))
 
+(use-package compile
+  :config (setq compilation-scroll-output t))
+
 (use-package ag :ensure t)
 
 (use-package magit
@@ -99,23 +101,24 @@
   :diminish projectile-mode)
 
 (use-package helm
-  :ensure t
-  :init   (progn
-            (helm-mode t)
-            (require 'helm-config)
-            (setq helm-M-x-fuzzy-match t
-                  helm-recentf-fuzzy-match t
-                  helm-semantic-fuzzy-match t
-                  helm-imenu-fuzzy-match t)
-            (use-package semantic) ; this doesn't work?
-            (use-package helm-projectile
-              :ensure t
-              ;; :pin    melpa-stable
-              :bind   (
-                       ("C-c h i" . helm-semantic-or-imenu)
-                       ([remap switch-to-buffer] . helm-mini)
-                       ([remap find-file] . helm-find-files)
-                       )))
+  :ensure  t
+  :defines (helm-M-x-fuzzy-match helm-semantic-fuzzy-match helm-imenu-fuzzy-match)
+  :init    (progn
+             (helm-mode t)
+             (require 'helm-config)
+             (setq helm-M-x-fuzzy-match t
+                   helm-recentf-fuzzy-match t
+                   helm-semantic-fuzzy-match t
+                   helm-imenu-fuzzy-match t)
+             (use-package semantic) ; this doesn't work?
+             (use-package helm-projectile
+               :ensure t
+               ;; :pin    melpa-stable
+               :bind   (
+                        ("C-c h i" . helm-semantic-or-imenu)
+                        ([remap switch-to-buffer] . helm-mini)
+                        ([remap find-file] . helm-find-files)
+                        )))
   :bind   (([remap execute-extended-command] . helm-M-x))
   :diminish helm-mode)
 
@@ -163,6 +166,7 @@
 
 (use-package enh-ruby-mode
   :ensure      t
+  :defines     (end-ruby-deep-indent-paren end-ruby-deep-arglist)
   :interpreter "ruby"
   :mode        (("\\.rb$" . enh-ruby-mode)
                 ("Rakefile" . enh-ruby-mode)
