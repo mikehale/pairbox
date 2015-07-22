@@ -1,18 +1,14 @@
 ;; Custom
 ;;
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
-     "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
-     default))))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))))
+
 
 ;; Misc
 ;;
+(setq load-prefer-newer t)    ; Please don't load outdated byte code
 (fset 'yes-or-no-p 'y-or-n-p) ; short answers
 (setq compilation-scroll-output t)
 
@@ -24,6 +20,7 @@
   (setq         tab-stop-list (number-sequence 2 60 2)
                 visible-bell t
                 show-trailing-whitespace t ; show extra whitespace
+                indicate-empty-lines t
                 require-final-newline t))  ; ensure last line is a return
 
 ;; Display
@@ -54,11 +51,12 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Install use-package
+;; Bootstrap `use-package'
 ;;
-(dolist (p '(use-package))
-  (when (not (package-installed-p p))
-    (package-install p)))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
@@ -67,6 +65,15 @@
 
 ;; Packages
 ;;
+
+(use-package server
+  :defer t
+  :init (server-mode)
+  :diminish server-buffer-clients
+                                        ; export ALTERNATE_EDITOR=
+                                        ; export EDITOR=emacsclient -t
+  )
+
 (use-package smart-mode-line
   :ensure t
   :config (progn
@@ -104,14 +111,20 @@
             (use-package semantic) ; this doesn't work?
             (use-package helm-projectile
               :ensure t
-              :pin    melpa-stable
+              ;; :pin    melpa-stable
               :bind   (
                        ("C-c h i" . helm-semantic-or-imenu)
-                       ("C-x b" . helm-mini)
-                       ("C-x C-f" . helm-find-files)
+                       ([remap switch-to-buffer] . helm-mini)
+                       ([remap find-file] . helm-find-files)
                        )))
-  :bind   ("M-x" . helm-M-x)
+  :bind   (([remap execute-extended-command] . helm-M-x))
   :diminish helm-mode)
+
+(use-package autorevert                 ; Auto-revert buffers of changed files
+  :init (global-auto-revert-mode)
+  :config (setq auto-revert-verbose nil ; Shut up, please!
+                ;; Revert Dired buffers, too
+                global-auto-revert-non-file-buffers t))
 
 (use-package recentf
   :init (progn (setq recentf-max-menu-items 25)
@@ -122,6 +135,32 @@
 
 (use-package abbrev
   :diminish abbrev-mode)
+
+(use-package flycheck
+  :ensure t
+  :init   (progn
+            (global-flycheck-mode)
+            (use-package flycheck-pos-tip
+              :disabled t
+              :ensure   t
+              :config   (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+            (use-package flycheck-color-mode-line
+              :ensure t
+              :init   (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+  :config (progn
+            (setq flycheck-highlighting-mode 'symbols)
+            (set-face-attribute 'flycheck-error nil
+                                :background "#660000"
+                                :foreground nil)
+            (set-face-attribute 'flycheck-warning nil
+                                :background "#775500"
+                                :foreground nil)
+            (set-face-attribute 'flycheck-color-mode-line-error-face nil
+                                :background "#660000"
+                                :foreground nil)
+            (set-face-attribute 'flycheck-color-mode-line-warning-face nil
+                                :background "#775500"
+                                :foreground nil)))
 
 (use-package enh-ruby-mode
   :ensure      t
@@ -151,6 +190,18 @@
                        enh-ruby-hanging-paren-indent-level 2
                        enh-ruby-indent-level 2)))
 
+(use-package expand-region              ; Expand region by semantic units
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
+
+(use-package hl-line                    ; Highlight the current line
+  :init (global-hl-line-mode 1))
+
+(use-package highlight-numbers          ; Fontify number literals
+  :ensure t
+  :defer t
+  :init (highlight-numbers-mode))
+
 ;; Keybindings
 ;;
 (global-set-key (kbd "M-/") 'dabbrev-expand)
@@ -176,3 +227,7 @@
   (interactive)
   (hl-line-mode -1)
   (linum-mode -1))
+
+;; Local Variables:
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:
